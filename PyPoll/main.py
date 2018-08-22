@@ -61,3 +61,29 @@ with open(outputfile, "w") as txt_file:
     print(election_results_part2)
 
     txt_file.write(election_results_part2)
+
+
+
+    # Specify the file to write to
+output_path = os.path.join("output", "PyPollAns.csv")
+
+# Open the file using "write" mode. Specify the variable to hold the contents
+with open(output_path, 'w', newline='') as csvfile:
+
+   # Initialize csv.writer
+   csvwriter = csv.writer(csvfile, delimiter=',')
+
+   # Write the first row (column headers)
+   csvwriter.writerow(['Election Results'])
+   # Write the second row
+   csvwriter.writerow(['----------------------------',])
+   csvwriter.writerow(['Total Votes'])
+   csvwriter.writerow(['----------------------------',])
+
+   csvwriter.writerow(['Khan : '+str(percentage_count)+str(vote)])
+   csvwriter.writerow(['Correy : '+str(percentage_count)+str(vote)])
+   csvwriter.writerow(['Li : '+str(percentage_count)+str(vote)])
+   csvwriter.writerow(['O Tooley : '+str(percentage_count)+str(vote)])
+   csvwriter.writerow(['----------------------------',])
+   csvwriter.writerow(['Winner : ' Khan')])
+   csvwriter.writerow(['----------------------------',])
