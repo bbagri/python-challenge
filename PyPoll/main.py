@@ -4,86 +4,64 @@ import csv
 csvpath = os.path.join("..", "Resources /", "election_data.csv")
 outputfile = os.path.join("..", "Resources /", "Election——Results.txt")
 
-total_votes = 0
 
-candidates = []
-candidates_votecount = {}
+with open(csvpath, 'r') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter = ",")
+    csv_header = next(csv_reader)
+    print(f"CSV Header: {csv_header}")
 
-winner = ""
-winner_votecount = 0
+    vote_count = 0
+    candidates = []
+    candidates_vote_count = {}
+    winner = ""
+    winner_votes = 0
 
-with open(csvpath) as rawdata:
-    reader = csv.reader(rawdata)
-    header = next(reader)
-
-    for row in reader:
-
-        total_votes += 1
-        
+    for row in csv_reader:
+        vote_count += 1
         candidates_name = row[2]
 
-        if candidates_name not in candidates:
+        if row[2] not in candidates:
+            candidates.append(row[2])
+            candidates_vote_count[row[2]] = 0
 
-            candidates.append(candidates_name)
-            candidates_votecount[candidates_name] = 0
-
-        candidates_votecount[candidates_name] += 1
-
-with open(outputfile, "w") as txt_file:
-
-    election_results = (
-        f"\n\nElection Results\n"
-        f"-------------------------\n"
-        f"Total Votes: {total_votes}\n"
-        f"-------------------------\n")
-    print(election_results, end="")
-
-    txt_file.write(election_results)
-
-    for x in candidates_votecount:
-
-        votes = candidates_votecount.get(x)
-        percenatge_count = float(votes) / float(total_votes) * 100
-
-        if (votes > winner_votecount):
-            winner_votecount = votes
-            winner = x
-
-        listofresults = f"{x}: {percenatge_count:.3f}% ({votes})\n"
-        print(listofresults, end="")
-
-        txt_file.write(listofresults)
-
-    election_results_part2 = (
-        f"-------------------------\n"
-        f"Winner: {winner}\n"
-        f"-------------------------\n")
-    print(election_results_part2)
-
-    txt_file.write(election_results_part2)
+        candidates_vote_count[row[2]] += 1
 
 
+for elected_candidate in candidates_vote_count:
 
-    # Specify the file to write to
+    votes = candidates_vote_count.get(elected_candidate)
+    percentage = round(votes) / round(vote_count) * 100
+
+    if (votes > winner_votes):
+        winner_votes = votes
+        winner = elected_candidate
+
+    print(elected_candidate + ": " + str([percentage]) + '% (' + str(votes) + ')')
+
+
+print("Election Results")
+print("-------------------------------------")
+print("Total Votes: " + str(vote_count))
+print("-------------------------------------")
+print("-------------------------------------")
+print("Winner: " + winner)
+print("-------------------------------------")
+
+
 output_path = os.path.join("output", "PyPollAns.csv")
 
-# Open the file using "write" mode. Specify the variable to hold the contents
 with open(output_path, 'w', newline='') as csvfile:
 
-   # Initialize csv.writer
    csvwriter = csv.writer(csvfile, delimiter=',')
 
-   # Write the first row (column headers)
    csvwriter.writerow(['Election Results'])
-   # Write the second row
    csvwriter.writerow(['----------------------------',])
    csvwriter.writerow(['Total Votes'])
    csvwriter.writerow(['----------------------------',])
-
-   csvwriter.writerow(['Khan : '+str(percenatge_count)+str(votes)])
-   csvwriter.writerow(['Correy : '+str(percenatge_count)+str(votes)])
-   csvwriter.writerow(['Li : '+str(percenatge_count)+str(votes)])
-   csvwriter.writerow(['O Tooley : '+str(percenatge_count)+str(votes)])
+   csvwriter.writerow(['Khan : '+str(percentage)+str(votes)])
+   csvwriter.writerow(['Correy : '+str(percentage)+str(votes)])
+   csvwriter.writerow(['Li : '+str(percentage)+str(votes)])
+   csvwriter.writerow(['O Tooley : '+str(percentage)+str(votes)])
    csvwriter.writerow(['----------------------------',])
    csvwriter.writerow(['Winner : ' +'Khan'])
    csvwriter.writerow(['----------------------------',])
