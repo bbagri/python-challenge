@@ -48,7 +48,7 @@ print("Winner: " + winner)
 print("-------------------------------------")
 
 
-output_path = os.path.join("output", "PyPollAns.csv")
+output_path = os.path.join("output", "PyPollAnsRedo.csv")
 
 with open(output_path, 'w', newline='') as csvfile:
 
