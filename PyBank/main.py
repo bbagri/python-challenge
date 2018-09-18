@@ -22,7 +22,6 @@ with open(csvpath, 'r') as csv_file:
     for row in csv_reader:
         month_count += 1
         total_profit += int(row[1])
-        #change_value = int(row[1]) - previous_value
         change_value = total_profit - previous_value
         previous_value = int(row[1])
         change_m = change_m + [row[0]]
